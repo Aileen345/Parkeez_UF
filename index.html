@@ -81,7 +81,7 @@
       <div class="map-top" style="flex-wrap:wrap"><strong>Parkeringar i Göteborg</strong><button id="location-button" class="location-button" type="button" style="display:inline-block!important;visibility:visible!important;background:#176b4d!important;color:#fff!important;padding:12px 16px!important;border-radius:12px!important;border:2px solid #c9f36b!important;font-size:14px!important;font-weight:800!important">📍 Visa min plats</button></div>
       <div id="location-status" role="status" aria-live="polite">Tryck på ”Visa min plats” för att visa din position på kartan.</div>
       <div id="map" aria-label="Karta över exempelparkeringar i Göteborg"></div>
-      <div class="map-foot">Kartdata © OpenStreetMap-bidragsgivare. Parkeez måste verifiera priser, betalningssätt och eventuell realtidsstatus innan tjänsten används skarpt.</div>
+      <div class="map-foot">Kartdata © OpenStreetMap-bidragsgivare. Parkeez måste verifiera priser, betalningssätt och eventuell realtidsstatus innan tjänsten används skarpt. Betalningsapparna är just nu endast exempel.</div>
     </div>
     <div class="panel side">
       <input id="search" class="search" type="search" placeholder="Sök område eller parkering…" aria-label="Sök parkering">
@@ -101,12 +101,12 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 const parks = [
- {id:1,name:"Exempelparkering – Centralen",address:"Område: Göteborg Centralstation",lat:57.7089,lng:11.9735,price:28,type:"garage",payment:"Exempel: kontrollera skyltning",hours:"Exempeluppgift",status:"Ej verifierad"},
- {id:2,name:"Exempelparkering – Heden",address:"Område: Heden",lat:57.7008,lng:11.9804,price:18,type:"street",payment:"Exempel: kontrollera skyltning",hours:"Exempeluppgift",status:"Ej verifierad"},
- {id:3,name:"Exempelparkering – Linné",address:"Område: Linné",lat:57.6961,lng:11.9538,price:16,type:"street",payment:"Exempel: kontrollera skyltning",hours:"Exempeluppgift",status:"Ej verifierad"},
- {id:4,name:"Exempelparkering – Nordstan",address:"Område: Nordstan",lat:57.7081,lng:11.9687,price:32,type:"garage",payment:"Exempel: kontrollera skyltning",hours:"Exempeluppgift",status:"Ej verifierad"},
- {id:5,name:"Exempelparkering – Korsvägen",address:"Område: Korsvägen",lat:57.6966,lng:11.9866,price:22,type:"garage",payment:"Exempel: kontrollera skyltning",hours:"Exempeluppgift",status:"Ej verifierad"},
- {id:6,name:"Exempelparkering – Majorna",address:"Område: Majorna",lat:57.6915,lng:11.9168,price:14,type:"street",payment:"Exempel: kontrollera skyltning",hours:"Exempeluppgift",status:"Ej verifierad"}
+ {id:1,name:"Exempelparkering – Centralen",address:"Område: Göteborg Centralstation",lat:57.7089,lng:11.9735,price:28,type:"garage",payment:"EasyPark (demo)",paymentUrl:"https://www.easypark.com/se-sv",hours:"Exempeluppgift",status:"Ej verifierad"},
+ {id:2,name:"Exempelparkering – Heden",address:"Område: Heden",lat:57.7008,lng:11.9804,price:18,type:"street",payment:"Parkster (demo)",paymentUrl:"https://parkster.com/se/",hours:"Exempeluppgift",status:"Ej verifierad"},
+ {id:3,name:"Exempelparkering – Linné",address:"Område: Linné",lat:57.6961,lng:11.9538,price:16,type:"street",payment:"Mobill (demo)",paymentUrl:"https://www.mobill.se/",hours:"Exempeluppgift",status:"Ej verifierad"},
+ {id:4,name:"Exempelparkering – Nordstan",address:"Område: Nordstan",lat:57.7081,lng:11.9687,price:32,type:"garage",payment:"EasyPark (demo)",paymentUrl:"https://www.easypark.com/se-sv",hours:"Exempeluppgift",status:"Ej verifierad"},
+ {id:5,name:"Exempelparkering – Korsvägen",address:"Område: Korsvägen",lat:57.6966,lng:11.9866,price:22,type:"garage",payment:"ePARK (demo)",paymentUrl:"https://epark.se/",hours:"Exempeluppgift",status:"Ej verifierad"},
+ {id:6,name:"Exempelparkering – Majorna",address:"Område: Majorna",lat:57.6915,lng:11.9168,price:14,type:"street",payment:"Parkster (demo)",paymentUrl:"https://parkster.com/se/",hours:"Exempeluppgift",status:"Ej verifierad"}
 ];
 const map = L.map('map',{scrollWheelZoom:false}).setView([57.7005,11.965],13);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap'}).addTo(map);
@@ -126,7 +126,7 @@ function selectPark(id,pan=true){
  if(pan) map.flyTo([p.lat,p.lng],15,{duration:.45});
  render();
  details.classList.add('show');
- details.innerHTML=`<h3>${p.name}</h3><p><strong>Exempelpris:</strong> ${p.price} kr/timme</p><p><strong>Betalning:</strong> ${p.payment}</p><p><strong>Tillgänglighet:</strong> ${p.status}</p><p><strong>Öppettider:</strong> ${p.hours}</p><p>All information ovan är demodata och måste verifieras innan publicering.</p><a class="button" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}">Visa vägen ↗</a>`;
+ details.innerHTML=`<h3>${p.name}</h3><p><strong>Exempelpris:</strong> ${p.price} kr/timme</p><p><strong>Betalningsapp:</strong> ${p.payment}</p><p><strong>Tillgänglighet:</strong> ${p.status}</p><p><strong>Öppettider:</strong> ${p.hours}</p><p>Betalningsappen och alla parkeringsuppgifter är exempel och måste kontrolleras mot skyltningen innan de används på riktigt.</p><a class="button" target="_blank" rel="noopener" href="${p.paymentUrl}">Öppna ${p.payment.replace(' (demo','').replace(')','')} ↗</a><br><a class="button" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}">Visa vägen ↗</a>`;
 }
 function render(){
  const arr=filtered(); document.getElementById('count').textContent=`${arr.length} platser`;
