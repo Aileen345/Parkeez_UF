@@ -76,6 +76,7 @@
   <section class="layout">
     <div class="panel">
       <div class="map-top"><strong>Parkeringar i Göteborg</strong><span>Välj en markör på kartan</span></div>
+      <div style="padding:0 17px 12px"><button id="locate" class="button" style="margin-top:0">◎ Visa min plats</button><span id="locationMessage" style="font-size:12px;color:#66756c;margin-left:9px" role="status">Tryck för att hitta dig på kartan.</span></div>
       <div id="map" aria-label="Karta över exempelparkeringar i Göteborg"></div>
       <div class="map-foot">Kartdata © OpenStreetMap-bidragsgivare. Parkeez måste verifiera priser, betalningssätt och eventuell realtidsstatus innan tjänsten används skarpt.</div>
     </div>
@@ -106,7 +107,7 @@ const parks = [
 ];
 const map = L.map('map',{scrollWheelZoom:false}).setView([57.7005,11.965],13);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap'}).addTo(map);
-const markerLayer = L.layerGroup().addTo(map);
+const markerLayer = L.layerGroup().addTo(map);\nlet userMarker = null, userAccuracy = null;
 let activeFilter='all', selectedId=null;
 const list=document.getElementById('list'), search=document.getElementById('search'), details=document.getElementById('details');
 function priceText(n){return `${n} kr <small>/ tim (demo)</small>`}
