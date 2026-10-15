@@ -146,6 +146,74 @@ document.querySelectorAll('.filter').forEach(btn=>btn.addEventListener('click',(
  btn.classList.add('active'); activeFilter=btn.dataset.filter; render();
 }));
 search.addEventListener('input',render);
+
+const locationMessage = document.getElementById('locationMessage');
+const locateButton = document.getElementById('locate');
+const userLayer = L.layerGroup().addTo(map);
+
+function showLocationError(error) {
+  locateButton.disabled = false;
+  locateButton.textContent = '◎ Visa min plats';
+  if (!navigator.geolocation) {
+    locationMessage.textContent = 'Den här webbläsaren stöder inte platsdelning. Öppna Parkeez i Safari.';
+    return;
+  }
+  if (error && error.code === 1) {
+    locationMessage.textContent = 'Platsåtkomst nekad. Tillåt plats för Safari i iPhone-inställningarna och försök igen.';
+  } else if (error && error.code === 2) {
+    locationMessage.textContent = 'Kunde inte hitta platsen. Kontrollera att Platstjänster är på och försök utomhus.';
+  } else if (error && error.code === 3) {
+    locationMessage.textContent = 'Det tog för lång tid att hitta dig. Försök igen.';
+  } else {
+    locationMessage.textContent = 'Kunde inte hitta din plats. Kontrollera platsinställningarna och försök igen.';
+  }
+}
+
+locateButton.addEventListener('click', () => {
+  if (!navigator.geolocation) {
+    showLocationError();
+    return;
+  }
+  locateButton.disabled = true;
+  locateButton.textContent = 'Hämtar plats…';
+  locationMessage.textContent = 'Väntar på platsåtkomst…';
+
+  navigator.geolocation.getCurrentPosition(position => {
+    const lat = position.coords.latitude;
+    const lng = position.coords.longitude;
+    const accuracy = position.coords.accuracy;
+
+    userLayer.clearLayers();
+    userMarker = L.circleMarker([lat, lng], {
+      radius: 9,
+      color: '#ffffff',
+      weight: 3,
+      fillColor: '#2478ff',
+      fillOpacity: 1
+    }).addTo(userLayer);
+    userMarker.bindPopup('<strong>Du är här</strong>').openPopup();
+
+    userAccuracy = L.circle([lat, lng], {
+      radius: accuracy,
+      color: '#2478ff',
+      weight: 1,
+      fillColor: '#2478ff',
+      fillOpacity: 0.12
+    }).addTo(userLayer);
+
+    map.flyTo([lat, lng], 16, { duration: 0.7 });
+    locationMessage.textContent = 'Din plats visas på kartan.';
+    locateButton.disabled = false;
+    locateButton.textContent = '◎ Uppdatera min plats';
+  }, error => {
+    showLocationError(error);
+  }, {
+    enableHighAccuracy: true,
+    timeout: 20000,
+    maximumAge: 0
+  });
+});
+
 render();
 </script>
 </body>
