@@ -55,7 +55,7 @@
     .details.show{display:block}
     .details h3{margin:0 0 7px}
     .details p{font-size:12px;line-height:1.5;margin:5px 0;color:#385347}
-    .button{display:inline-block;text-decoration:none;border:0;border-radius:10px;padding:10px 13px;background:var(--green);color:#fff;font-weight:750;font-size:12px;margin-top:9px;cursor:pointer}
+    .action-buttons{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}.button{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border:0;border-radius:10px;padding:12px 15px;background:var(--green);color:#fff;font-weight:800;font-size:13px;margin-top:0;cursor:pointer;min-height:46px}.payment-button{background:#124f39;border:2px solid #c9f36b;box-shadow:0 3px 0 #0b3928}
     .empty{padding:24px;text-align:center;color:var(--muted);font-size:13px}
     footer{padding:22px 4px 0;color:var(--muted);font-size:11px;line-height:1.6}
     .leaflet-popup-content-wrapper{border-radius:12px}
@@ -126,7 +126,7 @@ function selectPark(id,pan=true){
  if(pan) map.flyTo([p.lat,p.lng],15,{duration:.45});
  render();
  details.classList.add('show');
- details.innerHTML=`<h3>${p.name}</h3><p><strong>Exempelpris:</strong> ${p.price} kr/timme</p><p><strong>Betalningsapp:</strong> ${p.payment}</p><p><strong>Tillgänglighet:</strong> ${p.status}</p><p><strong>Öppettider:</strong> ${p.hours}</p><p>Betalningsappen och alla parkeringsuppgifter är exempel och måste kontrolleras mot skyltningen innan de används på riktigt.</p><a class="button" target="_blank" rel="noopener" href="${p.paymentUrl}">Öppna ${p.payment.replace(' (demo','').replace(')','')} ↗</a><br><a class="button" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}">Visa vägen ↗</a>`;
+ details.innerHTML=`<h3>${p.name}</h3><p><strong>Exempelpris:</strong> ${p.price} kr/timme</p><p><strong>Betalningsapp:</strong> ${p.payment}</p><p><strong>Tillgänglighet:</strong> ${p.status}</p><p><strong>Öppettider:</strong> ${p.hours}</p><p>Betalningsappen och alla parkeringsuppgifter är exempel och måste kontrolleras mot skyltningen innan de används på riktigt.</p><div class="action-buttons"><a class="button payment-button" target="_blank" rel="noopener" href="${p.paymentUrl}">Öppna betalningsapp ↗</a><a class="button" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}">Visa vägen ↗</a></div>`;
 }
 function render(){
  const arr=filtered(); document.getElementById('count').textContent=`${arr.length} platser`;
