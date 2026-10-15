@@ -107,7 +107,8 @@ const parks = [
 ];
 const map = L.map('map',{scrollWheelZoom:false}).setView([57.7005,11.965],13);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap'}).addTo(map);
-const markerLayer = L.layerGroup().addTo(map);\nlet userMarker = null, userAccuracy = null;
+const markerLayer = L.layerGroup().addTo(map);
+let userMarker = null, userAccuracy = null;
 let activeFilter='all', selectedId=null;
 const list=document.getElementById('list'), search=document.getElementById('search'), details=document.getElementById('details');
 function priceText(n){return `${n} kr <small>/ tim (demo)</small>`}
